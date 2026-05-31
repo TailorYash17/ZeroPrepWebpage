@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroPrep - Artisan DIY Meal Kits</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        /* Base design system */
+        :root {
+            --color-green-70: #166534;
+            --color-slate-90: #0f172a;
+            --color-slate-60: #475569;
+            --color-slate-50: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .font-heading {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Vertical scroll for recipe grid */
+        #recipes-featured-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            max-width: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        
+        @media (min-width: 640px) {
+            #recipes-featured-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            #recipes-featured-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        /* Fade-in animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            opacity: 0;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-500 { animation-delay: 0.5s; }
+        
+        /* Hover lift */
+        .hover-lift {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                        box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Stagger animations */
+        .stagger-1 { animation-delay: 0s; }
+        .stagger-2 { animation-delay: 0.1s; }
+        .stagger-3 { animation-delay: 0.2s; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--color-slate-50);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        green: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#166534',
+                            800: '#15803d',
+                            900: '#166534',
+                        },
+                        slate: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'medium': '0 10px 40px -10px rgba(0, 0, 0, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md border-b border-slate-100 z-40">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="#" class="text-2xl md:text-3xl font-heading font-semibold text-green-700 hover:text-green-800 transition-colors">
+                    Zero<span class="text-slate-900">Prep</span>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="#recipes" class="text-slate-600 hover:text-green-700 text-sm font-medium transition-colors">Recipes</a>
+                    <a href="#about" class="text-slate-600 hover:text-green-700 text-sm font-medium transition-colors">Our Story</a>
+                    <a href="#newsletter" class="text-slate-600 hover:text-green-700 text-sm font-medium transition-colors">Newsletter</a>
+                </div>
+                
+                <!-- CTA -->
+                <div class="hidden lg:flex items-center">
+                    <a href="#recipes" class="group relative px-6 py-2.5 bg-slate-900 text-white text-sm font-medium rounded-full overflow-hidden">
+                        <span class="relative z-10 group-hover:text-white transition-colors">Browse Recipes</span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-green-600 to-green-500 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="lg:hidden p-2 text-slate-600" aria-label="Menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background with gradient -->
+        <div class="absolute inset-0 bg-gradient-to-br from-green-50 via-white to-emerald-50"></div>
+        
+        <!-- Decorative elements -->
+        <div class="absolute top-20 left-10 w-72 h-72 bg-green-200/30 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-20 right-10 w-96 h-96 bg-emerald-200/30 rounded-full blur-3xl"></div>
+        
+        <!-- Content -->
+        <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+            <div class="fade-in stagger-1">
+                <span class="inline-flex items-center gap-2 px-4 py-2 bg-white/70 backdrop-blur-sm text-slate-600 rounded-full text-xs font-medium border border-slate-200 shadow-sm">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    Made with love & fresh ingredients
+                </span>
+            </div>
+            <div class="fade-in stagger-2">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-heading font-medium text-slate-900 tracking-tight leading-[1.1]">
+                    Cooking,<br />
+                    <span class="text-green-700">Reimagined.</span>
+                </h1>
+            </div>
+            <div class="fade-in stagger-3">
+                <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mt-6 mb-10 leading-relaxed">
+                    Artisan meal kits that transform your kitchen into a culinary studio. 
+                    Every ingredient carefully sourced. Every recipe thoughtfully crafted.
+                </p>
+            </div>
+            <div class="fade-in stagger-4">
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <a href="#recipes" class="group relative px-8 py-4 bg-slate-900 text-white font-medium rounded-full overflow-hidden hover-lift">
+                        <div class="absolute inset-0 bg-gradient-to-r from-green-600 to-green-500 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                        <span class="relative z-10">Explore Recipes</span>
+                    </a>
+                    <a href="#about" class="group relative px-8 py-4 bg-white text-slate-700 font-medium rounded-full border border-slate-200 hover:border-green-300 hover:shadow-sm hover-lift transition-all">
+                        <span>Our Story</span>
+                        <svg class="inline-block ml-2 w-4 h-4 text-slate-400 group-hover:text-green-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </header>
+
+    <!-- Categories Section -->
+    <section id="categories" class="py-24 bg-gradient-to-b from-slate-50 to-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="inline-flex items-center gap-2 text-green-600 text-sm font-semibold uppercase tracking-wider">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                    Explore by Category
+                </span>
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-heading text-slate-900 mt-4 mb-6 leading-tight">
+                    Cook with <span class="text-green-700">purpose</span>
+                </h2>
+                <p class="text-slate-600 text-lg max-w-xl mx-auto leading-relaxed">
+                    From hearty one-pot meals to quick lunches and light snacks—curated collections for every moment
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- One Pot Category -->
+                <div class="group relative bg-white rounded-3xl p-8 lg:p-10 shadow-soft hover-lift overflow-hidden border border-slate-100">
+                    <!-- Decorative gradient -->
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-green-600 via-emerald-500 to-green-400"></div>
+                    <div class="absolute top-4 right-4 w-32 h-32 bg-green-100/40 rounded-full blur-2xl group-hover:bg-green-100/60 transition-colors duration-500"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="inline-flex items-center justify-center w-14 h-14 lg:w-16 lg:h-16 bg-green-50 rounded-2xl mb-6 group-hover:bg-green-100 transition-colors">
+                            <svg class="w-7 h-7 lg:w-8 lg:h-8 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl lg:text-3xl font-heading font-semibold text-slate-900 mb-3 group-hover:text-green-700 transition-colors">
+                            One Pot
+                        </h3>
+                        <p class="text-slate-600 leading-relaxed text-sm lg:text-base mb-6">
+                            Complete meals that simmer in a single vessel. Less cleanup, maximum flavor—perfect weeknight dinners that feed the family.
+                        </p>
+                        <a href="diy-onepot.html" class="inline-flex items-center gap-2 text-sm font-medium text-green-700 hover:text-green-800 group-hover/link/transition">
+                            View Recipes
+                            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Lunch Category -->
+                <div class="group relative bg-white rounded-3xl p-8 lg:p-10 shadow-soft hover-lift overflow-hidden border border-slate-100">
+                    <!-- Decorative gradient -->
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-orange-600 via-amber-500 to-yellow-400"></div>
+                    <div class="absolute top-4 right-4 w-32 h-32 bg-orange-100/40 rounded-full blur-2xl group-hover:bg-orange-100/60 transition-colors duration-500"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="inline-flex items-center justify-center w-14 h-14 lg:w-16 lg:h-16 bg-orange-50 rounded-2xl mb-6 group-hover:bg-orange-100 transition-colors">
+                            <svg class="w-7 h-7 lg:w-8 lg:h-8 text-orange-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl lg:text-3xl font-heading font-semibold text-slate-900 mb-3 group-hover:text-orange-700 transition-colors">
+                            Lunch
+                        </h3>
+                        <p class="text-slate-600 leading-relaxed text-sm lg:text-base mb-6">
+                            Light yet satisfying midday meals. Quick to prepare, perfect for packing, or enjoying right before you start your afternoon.
+                        </p>
+                        <a href="diy-lunch.html" class="inline-flex items-center gap-2 text-sm font-medium text-orange-700 hover:text-orange-800 group-hover/link/transition">
+                            View Recipes
+                            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Snacks Category -->
+                <div class="group relative bg-white rounded-3xl p-8 lg:p-10 shadow-soft hover-lift overflow-hidden border border-slate-100">
+                    <!-- Decorative gradient -->
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-purple-600 via-violet-500 to-indigo-400"></div>
+                    <div class="absolute top-4 right-4 w-32 h-32 bg-purple-100/40 rounded-full blur-2xl group-hover:bg-purple-100/60 transition-colors duration-500"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="inline-flex items-center justify-center w-14 h-14 lg:w-16 lg:h-16 bg-purple-50 rounded-2xl mb-6 group-hover:bg-purple-100 transition-colors">
+                            <svg class="w-7 h-7 lg:w-8 lg:h-8 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl lg:text-3xl font-heading font-semibold text-slate-900 mb-3 group-hover:text-purple-700 transition-colors">
+                            Snacks
+                        </h3>
+                        <p class="text-slate-600 leading-relaxed text-sm lg:text-base mb-6">
+                            Little bites of joy—spiced treats, fresh chutneys, and savory delights that elevate any gathering or quiet afternoon moment.
+                        </p>
+                        <a href="diy-snacks.html" class="inline-flex items-center gap-2 text-sm font-medium text-purple-700 hover:text-purple-800 group-hover/link/transition">
+                            View Recipes
+                            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Recipes Section -->
+    <section id="recipes" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="inline-flex items-center gap-2 text-green-600 text-sm font-semibold uppercase tracking-wider">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                    Featured Recipes
+                </span>
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-heading text-slate-900 mt-4 mb-6">
+                    MasterChef in your kitchen
+                </h2>
+                <p class="text-slate-600 text-lg max-w-xl mx-auto">
+                    Explore our curated recipes — scroll to discover more
+                </p>
+            </div>
+            <style>
+                @import "tailwindcss";
+             
+  
+                .recipes-scroller {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                    gap: 0.5rem;
+                    min-height: 400px;
+                    max-height: 600px;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    padding-right: 0.5rem;
+                }
+                
+                .recipes-scroller::-webkit-scrollbar {
+                    width: 6px;
+                }
+                
+                .recipes-scroller::-webkit-scrollbar-track {
+                    background: #f1f5f9;  /* slate-100 */
+                }
+                
+                .recipes-scroller::-webkit-scrollbar-thumb {
+                    background-color: #cbd5e1;  /* slate-300 */
+                    border-radius: 10px;
+                }
+                
+                .recipes-scroller::-webkit-scrollbar-thumb:hover {
+                    background-color: #94a3b8;  /* slate-400 */
+                }
+  
+                /* Ensure recipe cards fill available height */
+                .recipes-scroller article {
+                    display: flex;
+                    flex-direction: column;
+                    height: 100%;
+                    min-height: 140px;
+                }
+            </style>
+            
+            <div id="recipes-featured-grid" class="recipes-scroller">
+                <!-- Recipe Card 1: Veg Biryani -->
+                <article class="group relative bg-slate-50 rounded-3xl overflow-hidden hover-lift min-h-80 flex">
+                    <!-- Image placeholder -->
+                    <div class="aspect-[4/3] bg-gradient-to-br from-orange-100 via-amber-50 to-orange-50 overflow-hidden relative">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <!-- <svg class="w-20 h-20 text-orange-300 group-hover:scale-110 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg> -->
+                              <img 
+                                    src="./assets/receipe-images/biryani.png" 
+                                    alt=""
+                                    class="w-full h-full object-cover scale-95"
+                                >
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/90 backdrop-blur-sm text-slate-700 text-xs font-medium rounded-full shadow-sm">
+                                <svg class="w-3.5 h-3.5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Trending
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 sm:p-8">
+                        <div class="flex items-center gap-2 text-xs text-slate-500 mb-3">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            45 min
+                            <span class="mx-2">•</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                            4 servings
+                        </div>
+                        <h3 class="text-2xl font-heading font-semibold text-slate-900 mb-2 group-hover:text-green-700 transition-colors">
+                            Veg Biryani
+                        </h3>
+                        <p class="text-slate-600 mb-5 leading-relaxed">
+                            Aromatic Indian rice dish bursting with fragrant spices and tender vegetables.
+                        </p>
+                        <a href="diy-biryani.html" class="inline-flex items-center gap-2 text-sm font-medium text-green-700 hover:text-green-800 group/link">
+                            Get Recipe
+                            <svg class="w-4 h-4 transform group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+                
+                <!-- Recipe Card 2: MR -->
+                <article class="group relative bg-slate-50 rounded-3xl overflow-hidden hover-lift min-h-80 flex">
+                    <div class="aspect-[4/3] bg-gradient-to-br from-purple-100 via-violet-50 to-purple-50 overflow-hidden relative">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <!-- <svg class="w-20 h-20 text-purple-300 group-hover:scale-110 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg> -->
+                              <img 
+                                    src="./assets/receipe-images/mr.png" 
+                                    alt=""
+                                    class="w-full h-full object-cover scale-95"
+                                >
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 sm:p-8">
+                        <div class="flex items-center gap-2 text-xs text-slate-500 mb-3">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            35 min
+                            <span class="mx-2">•</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                            2 servings
+                        </div>
+                        <h3 class="text-2xl font-heading font-semibold text-slate-900 mb-2 group-hover:text-green-700 transition-colors">
+                            Mexican Rice
+                        </h3>
+                        <p class="text-slate-600 mb-5 leading-relaxed">
+                            Flavorful mixed rice with tomatoes, peppers, and aromatic herbs.
+                        </p>
+                        <a href="diy-mr.html" class="inline-flex items-center gap-2 text-sm font-medium text-green-700 hover:text-green-800 group/link">
+                            Get Recipe
+                            <svg class="w-4 h-4 transform group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+                
+                <!-- Recipe Card 3: Aloo Bhindi -->
+                <article class="group relative bg-slate-50 rounded-3xl overflow-hidden hover-lift min-h-80 flex">
+                    <div class="aspect-[4/3] bg-gradient-to-br from-yellow-100 via-lime-50 to-yellow-50 overflow-hidden relative">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <!-- <svg class="w-20 h-20 text-yellow-600 group-hover:scale-110 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg> -->
+                              <img 
+                                    src="./assets/receipe-images/ab.png" 
+                                    alt=""
+                                    class="w-full h-full object-cover scale-95"
+                                >
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 sm:p-8">
+                        <div class="flex items-center gap-2 text-xs text-slate-500 mb-3">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            30 min
+                            <span class="mx-2">•</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                            3 servings
+                        </div>
+                        <h3 class="text-2xl font-heading font-semibold text-slate-900 mb-2 group-hover:text-green-700 transition-colors">
+                            Aloo Bhindi
+                        </h3>
+                        <p class="text-slate-600 mb-5 leading-relaxed">
+                            Classic potato and okra stir-fry, perfectly spiced and vibrant.
+                        </p>
+                        <a href="diy-aloo-bhindi.html" class="inline-flex items-center gap-2 text-sm font-medium text-green-700 hover:text-green-800 group/link">
+                            Get Recipe
+                            <svg class="w-4 h-4 transform group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Recipe Card 4: Veg Frankie -->
+                <article class="group relative bg-slate-50 rounded-3xl overflow-hidden hover-lift min-h-80 flex">
+                    <div class="aspect-[4/3] bg-gradient-to-br from-yellow-100 via-lime-50 to-yellow-50 overflow-hidden relative">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <!-- <svg class="w-20 h-20 text-yellow-600 group-hover:scale-110 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg> -->
+                              <img 
+                                    src="./assets/receipe-images/vf.png" 
+                                    alt=""
+                                    class="w-full h-full object-cover scale-95"
+                                >
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 sm:p-8">
+                        <div class="flex items-center gap-2 text-xs text-slate-500 mb-3">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            20 min
+                            <span class="mx-2">•</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                            2 servings
+                        </div>
+                        <h3 class="text-2xl font-heading font-semibold text-slate-900 mb-2 group-hover:text-green-700 transition-colors">
+                            Veg Frankie
+                        </h3>
+                        <p class="text-slate-600 mb-5 leading-relaxed">
+                            Crisp veggies and bold spices, wrapped in a soft, flavorful roll.
+                        </p>
+                        <a href="diy-vf.html" class="inline-flex items-center gap-2 text-sm font-medium text-green-700 hover:text-green-800 group/link">
+                            Get Recipe
+                            <svg class="w-4 h-4 transform group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <span class="inline-flex items-center gap-2 text-green-600 text-sm font-semibold uppercase tracking-wider">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Why ZeroPrep
+                    </span>
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-heading text-slate-900 mt-5 mb-8 leading-tight">
+                        We bring restaurant<span class="text-green-700"> quality</span> home.
+                    </h2>
+                </div>
+                
+                <div class="grid sm:grid-cols-2 gap-8">
+                    <div class="group">
+                        <div class="w-12 h-12 md:w-16 md:h-16 bg-green-100 rounded-2xl flex items-center justify-center group-hover:bg-green-200 transition-colors mb-5">
+                            <svg class="w-6 h-6 md:w-7 md:h-7 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-slate-900 mb-2">Convenience First</h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            Skip the prep work. Just follow our beautifully designed instructions and enjoy cooking.
+                        </p>
+                    </div>
+                    
+                    <div class="group">
+                        <div class="w-12 h-12 md:w-16 md:h-16 bg-emerald-100 rounded-2xl flex items-center justify-center group-hover:bg-emerald-200 transition-colors mb-5">
+                            <svg class="w-6 h-6 md:w-7 md:h-7 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-slate-900 mb-2">All Ingredients</h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            Every ingredient carefully sourced and included. Nothing to buy, nothing to waste.
+                        </p>
+                    </div>
+                    
+                    <div class="group">
+                        <div class="w-12 h-12 md:w-16 md:h-16 bg-lime-100 rounded-2xl flex items-center justify-center group-hover:bg-lime-200 transition-colors mb-5">
+                            <svg class="w-6 h-6 md:w-7 md:h-7 text-lime-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.882l3.197-2.132a1 1 0 000-1.764z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-slate-900 mb-2">Easy to Follow</h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            Step-by-step instructions made foolproof for beginners. Even first timers succeed.
+                        </p>
+                    </div>
+                    
+                    <div class="group">
+                        <div class="w-12 h-12 md:w-16 md:h-16 bg-lime-100 rounded-2xl flex items-center justify-center group-hover:bg-lime-200 transition-colors mb-5">
+                            <img 
+                                src="./assets/svg/leaf-svgrepo-com.svg"
+                                alt="Farm Fresh"
+                                class="w-6 h-6 md:w-7 md:h-7"
+                            />
+                        </div>
+                        <h3 class="text-xl font-semibold text-slate-900 mb-2">Farm Fresh</h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            Ingredients sourced from local farmers. Seasonal produce at its finest.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </section>
+    
+
+    
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-white overflow-hidden">
+        <div class="relative">
+            <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-green-50/50 to-transparent"></div>
+            
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div>
+                        <span class="inline-flex items-center gap-2 text-green-600 text-sm font-semibold uppercase tracking-wider">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Our Mission
+                        </span>
+                        <h2 class="text-3xl md:text-4xl lg:text-5xl font-heading text-slate-900 mt-5 mb-8 leading-tight">
+                            We believe that <span class="text-green-700">cooking should be joy.</span>
+                        </h2>
+                        <div class="space-y-4 text-lg text-slate-600 leading-relaxed">
+                            <p>
+                                ZeroPrep was born from a simple truth: cooking should be accessible, creative, and fun for everyone. 
+                                We believe that preparing meals at home shouldn't require professional training or hours of prep time.
+                            </p>
+                            <p>
+                                Our mission is to make cooking simple again by providing carefully curated recipes with 
+                                high-quality ingredients and clear, beautiful instructions. Whether you're a seasoned chef 
+                                or just starting your culinary journey, we're here to guide you.
+                            </p>
+                            <p>
+                                Every ingredient is thoughtfully sourced. Every recipe is tested by home cooks like you.
+                                We turn the kitchen into a place of creativity and connection.
+                            </p>
+                        </div>
+                        
+                        <!-- <div class="flex flex-wrap justify-center gap-8 mt-10">
+                            <div class="text-center">
+                                <div class="text-4xl md:text-5xl font-heading font-semibold text-green-700 mb-1">4.9</div>
+                                <div class="text-sm font-medium text-slate-500 uppercase tracking-wider">Average Rating</div>
+                            </div>
+                            <div class="w-px h-12 bg-slate-200"></div>
+                            <div class="text-center">
+                                <div class="text-4xl md:text-5xl font-heading font-semibold text-slate-900 mb-1">3+</div>
+                                <div class="text-sm font-medium text-slate-500 uppercase tracking-wider">Recipes Available</div>
+                            </div>
+                            <div class="w-px h-12 bg-slate-200"></div>
+                            <div class="text-center">
+                                <div class="text-4xl md:text-5xl font-heading font-semibold text-slate-900 mb-1">∞</div>
+                                <div class="text-sm font-medium text-slate-500 uppercase tracking-wider">Meals Cooked</div>
+                            </div>
+                        </div> -->
+                    </div>
+                    
+                    <!-- Decorative quote -->
+                    <div class="hidden lg:block">
+                        <blockquote class="text-2xl font-heading text-slate-700 leading-relaxed italic">
+                            "The best meals aren't rushed. They're made with care, patience,
+                            and the joy of creating something wonderful from simple ingredients."
+                        </blockquote>
+                        <cite class="block mt-4 text-slate-500 not-italic">— Chef Anjali Sharma</cite>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonials Section -->
+    <section class="py-24 bg-green-50">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="inline-flex items-center gap-2 text-green-700 text-sm font-semibold uppercase tracking-wider">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    Customer Stories
+                </span>
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-heading text-slate-900 mt-5 mb-4">
+                    Home cooks love ZeroPrep
+                </h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <article class="bg-white rounded-3xl p-8 shadow-soft hover-lift transition-all">
+                    <div class="flex gap-1 text-yellow-400 mb-4">
+                        ★★★★★
+                    </div>
+                    <p class="text-slate-700 italic leading-relaxed mb-6">
+                        "ZeroPrep changed how I cook! The DIY meal kits are so easy and the results are restaurant-quality. 
+                        The instructions are beautiful and even I could make perfect biryani!"
+                    </p>
+                    <p class="text-slate-600 font-medium text-sm">— Priya S.</p>
+                </article>
+                
+                <!-- Testimonial 2 -->
+                <article class="bg-white rounded-3xl p-8 shadow-soft hover-lift transition-all">
+                    <div class="flex gap-1 text-yellow-400 mb-4">
+                        ★★★★★
+                    </div>
+                    <p class="text-slate-700 italic leading-relaxed mb-6">
+                        "Love the simplicity. I'm a busy professional and these meal kits help me eat healthy without 
+                        spending hours in the kitchen. Each recipe feels intentional and delicious."
+                    </p>
+                    <p class="text-slate-600 font-medium text-sm">— Rajesh K.</p>
+                </article>
+                
+                <!-- Testimonial 3 -->
+                <article class="bg-white rounded-3xl p-8 shadow-soft hover-lift transition-all">
+                    <div class="flex gap-1 text-yellow-400 mb-4">
+                        ★★★★★
+                    </div>
+                    <p class="text-slate-700 italic leading-relaxed mb-6">
+                        "The Veg Biryani recipe is amazing! Better than what you get at restaurants. 
+                        The ingredient quality is impressive and everything arrived perfectly fresh. 
+                        ZeroPrep is my new favorite meal solution."
+                    </p>
+                    <p class="text-slate-600 font-medium text-sm">— Anjali M.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="py-24 bg-slate-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0">
+            <div class="absolute top-0 left-0 w-96 h-full bg-gradient-to-r from-green-900/30 to-transparent"></div>
+            <div class="absolute bottom-0 right-0 w-96 h-96 bg-emerald-800/20 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div class="max-w-4xl mx-auto px-6 lg:px-8 relative z-10 text-center">
+            <h2 class="text-3xl md:text-5xl lg:text-6xl font-heading mb-6">
+                Ready to start cooking?
+            </h2>
+            <p class="text-slate-300 text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+                Join hundreds of home cooks who've transformed their kitchen experience with ZeroPrep.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#recipes" class="group relative px-10 py-5 bg-green-600 text-white font-semibold rounded-full hover:bg-green-500 transition-colors hover-lift">
+                    <span>Browse All Recipes</span>
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Newsletter Section -->
+    <!-- <section id="newsletter" class="py-24 bg-white">
+        <div class="max-w-4xl mx-auto px-6 lg:px-8">
+            <div class="bg-slate-900 rounded-3xl p-8 sm:p-12 lg:p-16 text-center relative overflow-hidden"> -->
+                <!-- Decorative -->
+                <!-- <div class="absolute top-0 left-0 w-full h-full overflow-hidden">
+                    <div class="absolute top-8 left-8 w-72 h-72 bg-green-500/10 rounded-full blur-3xl"></div>
+                    <div class="absolute bottom-8 right-8 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
+                </div> -->
+                
+                <!-- <div class="relative z-10">
+                    <span class="inline-flex items-center gap-2 text-green-400 text-xs font-semibold uppercase tracking-wider mb-6">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l2 2m0 0l-2 2m2-2H3m5 13l7-7m0 0l-7-7m7 7H3"></path>
+                        </svg>
+                        Newsletter
+                    </span>
+                    <h2 class="text-2xl md:text-3xl font-heading mb-4">
+                        Never miss a recipe
+                    </h2>
+                    <p class="text-slate-300 mb-8 leading-relaxed">
+                        Get new recipes, cooking tips, and exclusive content delivered monthly.
+                    </p>
+                    <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                        <input type="email" placeholder="your@email.com" class="flex-1 px-6 py-4 bg-white/10 backdrop-blur text-white placeholder:text-slate-400 border border-white/20 rounded-full focus:outline-none focus:border-green-500 focus:bg-white/15 transition-all" required>
+                        <button type="submit" class="px-8 py-4 bg-green-600 text-white font-semibold rounded-full hover:bg-green-500 transition-colors hover-lift whitespace-nowrap">
+                        Subscribe
+                        </button>
+                    </form>
+                    <p class="text-slate-400 text-xs mt-4">
+                        Unsubscribe anytime. No spam, ever.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section> -->
+    
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-300 py-16">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+                <div class="col-span-2 md:col-span-1">
+                    <a href="#" class="text-2xl md:text-3xl font-heading font-semibold text-white mb-4 block">
+                        Zero<span class="text-green-500">Prep</span>
+                    </a>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Making home cooking simple, beautiful, and delicious. One recipe at a time.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-medium mb-4 text-sm uppercase tracking-wider">Explore</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#recipes" class="hover:text-green-400 hover:underline transition-colors">Recipes</a></li>
+                        <li><a href="#about" class="hover:text-green-400 hover:underline transition-colors">About Us</a></li>
+                        <li><a href="#newsletter" class="hover:text-green-400 hover:underline transition-colors">Newsletter</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-medium mb-4 text-sm uppercase tracking-wider">Support</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="hover:text-green-400 hover:underline transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-green-400 hover:underline transition-colors">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-green-400 hover:underline transition-colors">Shipping Info</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-medium mb-4 text-sm uppercase tracking-wider">Connect</h4>
+                    <div class="flex gap-4">
+                        <a href="https://facebook.com" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-green-600 hover:text-white transition-colors" aria-label="Facebook">     
+                            <img 
+                                src="assets/svg/facebook-color-svgrepo-com.svg"
+                                alt="Facebook"
+                                class="w-3 h-3 md:w-4 md:h-4"
+                            />
+                        </a>
+                        <a href="https://instagram.com" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-green-600 hover:text-white transition-colors" aria-label="Instagram">
+                            <img 
+                                src="assets/svg/instagram-1-svgrepo-com.svg"
+                                alt="Instagram"
+                                class="w-5 h-5 md:w-6 md:h-6"
+                            />
+                        </a>
+                        <a href="https://www.youtube.com/" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-green-600 hover:text-white transition-colors" aria-label="X/Twitter">
+                            <img 
+                                src="assets/svg/youtube-svgrepo-com.svg"
+                                alt="YouTube"
+                                class="w-5 h-5 md:w-6 md:h-6"
+                            />
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-slate-800 text-center text-sm text-slate-400 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p>&copy; 2024 ZeroPrep. All rights reserved.</p>
+                <div class="flex gap-6 text-sm">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                    <a href="#contact" class="hover:text-white transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+</body>
+</html>
