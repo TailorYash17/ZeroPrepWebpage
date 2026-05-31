@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIY Veg Frankie — ZeroPrep Recipe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        serif: ['Playfair Display', 'Georgia', 'serif']
+                    },
+                    colors: {
+                        green: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#166534',
+                            800: '#15803d',
+                            900: '#14532d',
+                        },
+                        slate: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'medium': '0 10px 40px -10px rgba(0, 0, 0, 0.1)',
+                        'accent': '0 15px 60px -15px rgba(22, 163, 74, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+        
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+        .sr-only:focus { position: fixed; top: 4px; left: 4px; width: auto; height: auto; padding: 0.5rem 1rem; overflow: visible; clip: auto; z-index: 9999; background: #166534; color: white; border-radius: 0.5rem; }
+        
+        .hover-lift { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); }
+        .hover-lift:active { transform: translateY(-2px); }
+        
+        @media (prefers-reduced-motion: reduce) { *, ::before, ::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
+        
+        html { scroll-behavior: smooth; }
+        .font-heading { font-family: 'Playfair Display', Georgia, serif; }
+        
+        .step-number { counter-increment: step-counter; }
+        
+        /* Smooth reveal on scroll */
+        .reveal-on-scroll { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .reveal-on-scroll.revealed { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-green-50/50 via-slate-50 to-emerald-50/30 text-slate-800 min-h-screen">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:bg-green-700 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:z-50">Skip to main content</a>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md border-b border-slate-100 z-40">
+        <div class="max-w-4xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="text-2xl md:text-3xl font-heading font-semibold text-green-700 hover:text-green-800 transition-colors flex items-center gap-2">
+                    <span class="text-3xl">🍛</span>
+                    ZeroPrep
+                </a>
+                <div class="flex items-center gap-4">
+                    <a href="index.html" class="hidden sm:block text-slate-600 hover:text-green-700 text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-green-50">
+                        <span class="inline-flex items-center gap-1">
+                            <span class="text-lg">⬅️</span>
+                            Back to Recipes
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main id="main-content" class="pt-24 pb-16">
+        
+        <!-- Recipe Header Hero -->
+        <section class="relative py-8 lg:py-12">
+            <div class="max-w-4xl mx-auto px-4">
+                <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+                    <!-- Recipe Info -->
+                    <div class="lg:col-span-1">
+                        <div class="inline-flex items-center gap-2 text-green-700 text-xs font-semibold uppercase tracking-wider mb-4">
+                            <span class="text-lg">🌟</span>
+                            Featured Recipe
+                        </div>
+                        
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-slate-900 tracking-tight leading-[1.1] mb-4">
+                            DIY Veg Frankie
+                        </h1>
+                        
+                        <p class="text-slate-600 text-lg leading-relaxed mb-6 max-w-xl">
+                            Crunchy rolled roti stuffed with spiced paneer, fresh vegetables, and creamy sauces — a fun fusion street food made effortlessly with 11 pouches.
+                        </p>
+                        
+                        <!-- Quick Stats -->
+                        <div class="grid grid-cols-3 gap-4 my-6" id="quick-stats">
+                            <!-- Time Card -->
+                            <div class="text-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-slate-100 shadow-soft hover-lift">
+                                <div class="flex items-center justify-center gap-2 mb-1">
+                                    <span class="text-xl">⏱️</span>
+                                </div>
+                                <div class="font-semibold text-green-700 min-w-[60px] text-center text-lg">25 min</div>
+                                <div class="text-xs text-slate-500 uppercase tracking-wide mt-1">Total Time</div>
+                            </div>
+                            
+                            <!-- Servings Card -->
+                            <div class="text-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-slate-100 shadow-soft hover-lift">
+                                <div class="flex items-center justify-center gap-2 mb-1">
+                                    <span class="text-xl">👥</span>
+                                </div>
+                                <div class="font-semibold text-green-700 min-w-[60px] text-center text-lg">4</div>
+                                <div class="text-xs text-slate-500 uppercase tracking-wide mt-1">Servings</div>
+                            </div>
+                            
+                            <!-- Difficulty Card -->
+                            <div class="text-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-slate-100 shadow-soft hover-lift">
+                                <div class="flex items-center justify-center gap-2 mb-1">
+                                    <span class="text-xl">🟢</span>
+                                </div>
+                                <div class="font-semibold text-green-700 min-w-[60px] text-center text-lg">Easy</div>
+                                <div class="text-xs text-slate-500 uppercase tracking-wide mt-1">Difficulty</div>
+                            </div>
+                        </div>
+                        
+                        <div class="inline-flex items-center gap-2 from-green-100 to-emerald-50 bg-gradient-to-r bg-white text-green-800 rounded-full text-sm font-medium border border-green-200 animate-fade-in">
+                            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                            Serves 4 people | Vegetarian 🌿 | No Prep ✨
+                        </div>
+                    </div>
+                    
+                    <!-- Recipe Image -->
+                    <div class="lg:col-span-1">
+                        <div class="relative group">
+                            <div class="h-[500px] rounded-3xl overflow-hidden shadow-accent bg-gradient-to-br from-green-100 to-emerald-50">
+                                <img 
+                                    src="./assets/receipe-images/vf.png" 
+                                    alt="DIY Veg Frankie — rolled roti with paneer and vegetables"
+                                    class="w-full h-full object-cover scale-95"
+                                >
+                                <span class="absolute top-4 left-4 px-4 py-1.5 bg-white/90 backdrop-blur-lg rounded-full text-sm font-semibold shadow-sm">
+                                    🌮 Crunchy street food delight
+                                </span>
+                            </div>                                   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- IN-BOX Section (Complete Meal Kit Display) -->
+        <section class="bg-gradient-to-b from-white via-green-50/30 to-white py-16 lg:py-20">
+            <div class="max-w-4xl mx-auto px-4">
+                <div class="text-center mb-10 reveal-on-scroll">
+                    <div class="inline-flex items-center gap-3 px-5 py-2.5 bg-gradient-to-r from-green-100 to-emerald-50 rounded-2xl mb-4 border border-green-200">
+                        <span class="text-xl">📦</span>
+                        <span class="text-green-800 font-semibold text-sm uppercase tracking-wide">Everything You Need</span>
+                    </div>
+                    <h2 class="text-3xl lg:text-4xl font-heading font-bold text-slate-900 mb-3">IN-BOX 📦</h2>
+                    <p class="text-slate-600 text-sm max-w-xl mx-auto">Your complete meal kit arrives with 11 carefully portioned pouches ready for rolling</p>
+                </div>
+                
+                <!-- Pouch Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-5 mb-8 reveal-on-scroll" id="pouch-grid">
+                    
+                    <!-- Pouch 1 - Curd -->
+                    <div class="pouch-card bg-white rounded-2xl border-2 border-green-100 hover:border-green-400 transition-all cursor-default group reveal-on-scroll" style="animation-delay: 0ms;">
+                        <div class="p-5">
+                            <div class="text-center mb-3">
+                                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-green-100 to-emerald-50 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="text-3xl">🥛</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-800 bg-emerald-50 px-3 py-1.5 rounded-full">Pouch 1</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-base mb-1.5">Curd</h3>
+                            <p class="text-slate-500 text-xs">Base for marinade & chutney</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pouch 2 - Marinate Spice -->
+                    <div class="pouch-card bg-white rounded-2xl border-2 border-green-100 hover:border-green-400 transition-all cursor-default group reveal-on-scroll" style="animation-delay: 20ms;">
+                        <div class="p-5">
+                            <div class="text-center mb-3">
+                                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-rose-100 to-rose-50 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="text-3xl">🧂</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-800 bg-emerald-50 px-3 py-1.5 rounded-full">Pouch 2</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-base mb-1.5">Marinate Spice</h3>
+                            <p class="text-slate-500 text-xs">🌶️ Flavor for paneer</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pouch 3 - Ginger Garlic Paste -->
+                    <div class="pouch-card bg-white rounded-2xl border-2 border-green-100 hover:border-green-400 transition-all cursor-default group reveal-on-scroll" style="animation-delay: 40ms;">
+                        <div class="p-5">
+                            <div class="text-center mb-3">
+                                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-blue-100 to-indigo-50 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="text-3xl">🧄</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-800 bg-emerald-50 px-3 py-1.5 rounded-full">Pouch 3</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-base mb-1.5">Ginger-Garlic Paste</h3>
+                            <p class="text-slate-500 text-xs">👃 Aromatic marinade</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pouch 4 - Paneer -->
+                    <div class="pouch-card bg-white rounded-2xl border-2 border-green-100 hover:border-green-400 transition-all cursor-default group reveal-on-scroll" style="animation-delay: 60ms;">
+                        <div class="p-5">
+                            <div class="text-center mb-3">
+                                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-green-100 to-emerald-50 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="text-3xl">🧀</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-800 bg-emerald-50 px-3 py-1.5 rounded-full">Pouch 4</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-base mb-1.5">Paneer</h3>
+                            <p class="text-slate-500 text-xs">Vacuum-sealed tofu</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pouch 5 - Lemon -->
+                    <div class="pouch-card bg-white rounded-2xl border-2 border-green-100 hover:border-green-400 transition-all cursor-default group reveal-on-scroll" style="animation-delay: 80ms;">
+                        <div class="p-5">
+                            <div class="text-center mb-3">
+                                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-yellow-100 to-amber-50 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="text-3xl">🍋</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-800 bg-emerald-50 px-3 py-1.5 rounded-full">Pouch 5</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-base mb-1.5">Lemon</h3>
+                            <p class="text-slate-500 text-xs">🍊 Zesty freshness</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pouch 6 - Veg Mix -->
+                    <div class="pouch-card bg-white rounded-2xl border-2 border-green-100 hover:border-green-400 transition-all cursor-default group reveal-on-scroll" style="animation-delay: 100ms;">
+                        <div class="p-5">
+                            <div class="text-center mb-3">
+                                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-red-100 to-rose-50 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="text-3xl">🥗</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-800 bg-emerald-50 px-3 py-1.5 rounded-full">Pouch 6</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-base mb-1.5">Veg Mix</h3>
+                            <p class="text-slate-500 text-xs">🥕 Onion, carrot, lettuce & capsicum</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pouch 7 - Veggie Spice -->
+                    <div class="pouch-card bg-white rounded-2xl border-2 border-green-100 hover:border-green-400 transition-all cursor-default group reveal-on-scroll" style="animation-delay: 120ms;">
+                        <div class="p-5">
+                            <div class="text-center mb-3">
+                                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-blue-100 to-indigo-50 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="text-3xl">🌱</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-800 bg-emerald-50 px-3 py-1.5 rounded-full">Pouch 7</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-base mb-1.5">Veggie Spice</h3>
+                            <p class="text-slate-500 text-xs">🧂 Seasoning herbs</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pouch 8 - Green Chutney -->
+                    <div class="pouch-card bg-white rounded-2xl border-2 border-green-100 hover:border-green-400 transition-all cursor-default group reveal-on-scroll" style="animation-delay: 140ms;">
+                        <div class="p-5">
+                            <div class="text-center mb-3">
+                                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-green-100 to-emerald-50 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="text-3xl">🌿</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-800 bg-emerald-50 px-3 py-1.5 rounded-full">Pouch 8</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-base mb-1.5">Green Chutney</h3>
+                            <p class="text-slate-500 text-xs">💚 Cooling herb swirl</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pouch 9 - Butter -->
+                    <div class="pouch-card bg-white rounded-2xl border-2 border-green-100 hover:border-green-400 transition-all cursor-default group reveal-on-scroll" style="animation-delay: 160ms;">
+                        <div class="p-5">
+                            <div class="text-center mb-3">
+                                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-yellow-100 to-amber-50 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="text-3xl">🧈</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-800 bg-emerald-50 px-3 py-1.5 rounded-full">Pouch 9</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-base mb-1.5">Butter</h3>
+                            <p class="text-slate-500 text-xs">🍳 Enriched toasting</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pouch 10 - Roti -->
+                    <div class="pouch-card bg-white rounded-2xl border-2 border-green-100 hover:border-green-400 transition-all cursor-default group reveal-on-scroll" style="animation-delay: 180ms;">
+                        <div class="p-5">
+                            <div class="text-center mb-3">
+                                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-slate-100 to-slate-50 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="text-3xl">🫓</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-800 bg-emerald-50 px-3 py-1.5 rounded-full">Pouch 10</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-base mb-1.5">Roti</h3>
+                            <p class="text-slate-500 text-xs">🌮 Rolling wrap sheet</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pouch 11 - Veg Mayo -->
+                    <div class="pouch-card bg-white rounded-2xl border-2 border-green-100 hover:border-green-400 transition-all cursor-default group reveal-on-scroll" style="animation-delay: 200ms;">
+                        <div class="p-5">
+                            <div class="text-center mb-3">
+                                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-yellow-100 to-amber-50 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="text-3xl">🥣</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-800 bg-emerald-50 px-3 py-1.5 rounded-full">Pouch 11</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-base mb-1.5">Veg Mayo</h3>
+                            <p class="text-slate-500 text-xs">🍴 Creamy tangy sauce</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pouch Reference Info Box -->
+                <div class="bg-blue-50 rounded-xl p-4 border border-blue-100 text-sm text-center text-blue-800 reveal-on-scroll">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="inline-flex items-center gap-2 mb-2">
+                            <span class="font-semibold">💡</span>
+                            <span>Read pouch references:</span>
+                        </div>
+                        <p class="max-w-3xl mx-auto">Whenever we reference a numbered pouch, we're telling you which in-box pouch to use for that ingredient. For example: "Take 3/4 of Pouch 1 (Curd)" means use pouch 1 from your kit.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Instructions Section -->
+        <section class="bg-white py-16 lg:py-20">
+            <div class="max-w-4xl mx-auto px-4">
+                <div class="flex items-center gap-4 mb-8 reveal-on-scroll">
+                    <div class="p-3.5 bg-green-100 rounded-2xl">
+                        <span class="text-2xl">👨‍🍳</span>
+                    </div>
+                    <h2 class="text-3xl lg:text-4xl font-heading font-bold text-slate-900">Instructions</h2>
+                    <div class="hidden md:flex items-center gap-2 text-green-700 text-sm font-medium">
+                        <div class="step-number w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-md" style="counter-increment: step-counter;">1</div>
+                        <div class="step-number w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-md" style="counter-increment: step-counter;">2</div>
+                        <div class="step-number w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-md" style="counter-increment: step-counter;">3</div>
+                        <div class="step-number w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-md" style="counter-increment: step-counter;">4</div>
+                        <div class="step-number w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-md" style="counter-increment: step-counter;">5</div>
+                        <div class="step-number w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-md" style="counter-increment: step-counter;">6</div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4 reveal-on-scroll">
+                    
+                    <!-- Step 1: Make Marinade -->
+                    <div class="step bg-white rounded-xl p-6 shadow-soft hover:shadow-md hover-lift transition-all">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="step-number w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md">
+                                    1
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2">
+                                    🥣 Make the Marinade
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded bg-green-100 text-green-700">
+                                        ← Mix ↓
+                                    </span>
+                                </h3>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Scoop about 60 grams of curd from <strong>Pouch 1</strong> into a mixing bowl. Sprinkle <strong>Pouch 2</strong> (Marinate Spice Box) and whisk until you get a smooth paste. Fold in 1 teaspoon of <strong>Pouch 3</strong> (Ginger-Garlic Paste) — stir until fragrant. Carefully open <strong>Pouch 4</strong> (vacuum-sealed paneer) and gently toss the cubed paneer until every piece is fully coated with the spicy curd marinade. Squeeze the juice of half of <strong>Pouch 5</strong> (lemon) into the marinade for a zesty lift. Cover and refrigerate the marinated paneer for at least 10–15 minutes (or up to 1 hour) so the flavors can penetrate deeply.
+                                </p>
+                                <div class="flex flex-wrap gap-2 mt-3">
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-green-50 text-green-800 text-xs font-medium rounded-full border border-green-200">
+                                        ⏱️ Let it marinate
+                                    </span>
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-green-50 text-green-800 text-xs font-medium rounded-full border border-green-200">
+                                        🌶️ Spicy kick
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2: Prepare Dressed Veggies -->
+                    <div class="step bg-white rounded-xl p-6 shadow-soft hover:shadow-md hover-lift transition-all">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="step-number w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md">
+                                    2
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2">
+                                    🥕 Dress the Veggies
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded bg-red-100 text-red-700">
+                                        ← Prepare ↓
+                                    </span>
+                                </h3>
+                                <p class="text-slate-600 leading-relaxed">
+                                    In a separate bowl, dump out <strong>Pouch 6</strong> (Veg Mix — onion, carrot, iceberg lettuce, capsicum). If the pieces look too big, roughly chop them to match your desired roll filling size — keep some bite-sized chunks for texture. Sprinkle <strong>Pouch 7</strong> (Veggie Spice Box) evenly and toss to coat. Add the juice of the remaining lemon half from <strong>Pouch 5</strong> — this brightens and cleans the veggies. Give a gentle toss and set aside so the veggies stay crisp and refreshing.
+                                </p>
+                                <div class="flex flex-wrap gap-2 mt-3">
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-red-50 text-red-800 text-xs font-medium rounded-full border border-red-100">
+                                        🥬 Crisp veggies
+                                    </span>
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-red-50 text-red-800 text-xs font-medium rounded-full border border-red-100">
+                                        🌟 Fresh crunch
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3: Make Chutney -->
+                    <div class="step bg-white rounded-xl p-6 shadow-soft hover:shadow-md hover-lift transition-all">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="step-number w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md">
+                                    3
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2">
+                                    💚 Whip the Chutney
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded bg-emerald-100 text-emerald-700">
+                                        ← Blend ↓
+                                    </span>
+                                </h3>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Grab <strong>Pouch 8</strong> (Green Chutney Box) and take the remaining curd left over from <strong>Pouch 1</strong>. In a small bowl, combine both and whisk vigorously until you get a smooth, creamy, vibrant green chutney. Taste and add a pinch of salt if the veggie spice box didn't include any. This chutney will be the cool, creamy swirl inside your frankie — use it generously!
+                                </p>
+                                <div class="flex flex-wrap gap-2 mt-3">
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-800 text-xs font-medium rounded-full border border-emerald-100">
+                                        🌿 Cooling green
+                                    </span>
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-800 text-xs font-medium rounded-full border border-emerald-100">
+                                        ↪️ Creamy swirl
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4: Sear Paneer -->
+                    <div class="step bg-white rounded-xl p-6 shadow-soft hover:shadow-md hover-lift transition-all">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="step-number w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md">
+                                    4
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2">
+                                    🔥 Sear the Paneer
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded bg-orange-100 text-orange-700">
+                                        ← Pan Cook ↓
+                                    </span>
+                                </h3>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Heat a non-stick pan or tawa on medium heat. Add half of <strong>Pouch 9</strong> (Butter) — enough to coat the surface generously (about ½ tablespoon). Carefully lay the marinated paneer cubes in a single layer. Sear and cook, turning occasionally with tongs, until you have nice golden brown marks on all sides and the paneer is heated through (about 8–10 minutes). If you like a slightly charred finish for extra smokiness, briefly increase heat at the end. Remove the cooked paneer to a plate and keep warm while you prep the roti.
+                                </p>
+                                <div class="flex flex-wrap gap-2 mt-3">
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-orange-50 text-orange-800 text-xs font-medium rounded-full border border-orange-100">
+                                        🍳 Golden sear
+                                    </span>
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-orange-50 text-orange-800 text-xs font-medium rounded-full border border-orange-100">
+                                        🔥 Smoky finish
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 5: Warm Roti -->
+                    <div class="step bg-white rounded-xl p-6 shadow-soft hover:shadow-md hover-lift transition-all">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="step-number w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md">
+                                    5
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2">
+                                    🔥 Warm the Roti
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded bg-blue-100 text-blue-700">
+                                        ← Tawa ↓
+                                    </span>
+                                </h3>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Using the same tawa or a clean flat pan, heat on medium. Add the remaining butter from <strong>Pouch 9</strong> and carefully warm the <strong>Pouch 10</strong> (Roti) for 20–30 seconds on each side until it softens, puffs slightly, and takes on light brown marks. This warm, pliable roti will make rolling much easier. Set aside.
+                                </p>
+                                <div class="flex flex-wrap gap-2 mt-3">
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-blue-800 text-xs font-medium rounded-full border border-blue-100">
+                                        🫓 Soft & pliable
+                                    </span>
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-blue-800 text-xs font-medium rounded-full border border-blue-100">
+                                        🍞 Freshly warmed
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 6: Assemble & Roll -->
+                    <div class="step bg-white rounded-xl p-6 shadow-soft hover:shadow-md hover-lift transition-all">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="step-number w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md">
+                                    6
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2">
+                                    🌯 Assemble & Roll
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded bg-purple-100 text-purple-700">
+                                        ← Roll Tight ↓
+                                    </span>
+                                </h3>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Place the warm roti on a clean, floured surface. Spread the prepared green chutney evenly over the roti — this is your creamy base. Add a generous layer of the seared paneer across the centre of the roti. Top the paneer with the dressed fresh veggies from Step 2. Drizzle or spoon <strong>Pouch 11</strong> (Veg Mayo) generously over the veggies — you can use the entire pouch or adjust to your taste. Squeeze any remaining lemon if desired for extra brightness, then roll tightly from one edge inward, tucking the ends as you go so the filling stays sealed inside. Wrap in paper foil or serve immediately while warm!
+                                </p>
+                                <div class="flex flex-wrap gap-2 mt-3">
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-purple-50 text-purple-800 text-xs font-medium rounded-full border border-purple-100">
+                                        🌮 Roll tight
+                                    </span>
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-purple-50 text-purple-800 text-xs font-medium rounded-full border border-purple-100">
+                                        🍋 Zesty squeeze
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <!-- Finish & Serve Section -->
+                <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border border-green-100 mt-6 shadow-sm reveal-on-scroll">
+                    <div class="flex items-start gap-4">
+                        <div class="p-2 bg-green-200 rounded-lg text-green-700">
+                            <span class="text-2xl">🍽️</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-green-900 text-lg mb-2">Finish & Serve</h3>
+                            <p class="text-slate-700 leading-relaxed mb-3">
+                                Serve your DIY Veg Frankie hot and crispy! Cut in half if desired so you can see the beautiful layered filling inside. Enjoy with extra chutney or a fresh side salad for crunch. Store any leftover components separately (paneer, veggies, roti) in the fridge for up to 2 days, reheat gently before eating.
+                            </p>
+                            
+                            <!-- Quick Tips Grid -->
+                            <div class="mt-4">
+                                <h4 class="font-semibold text-green-900 mb-2">👏 Quick Tips ✅</h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div class="bg-white rounded-lg p-3 text-sm text-slate-700">
+                                        <p class="font-medium text-green-700 mb-1">🌶️ Tip 1: Spice Level</p>
+                                        <p class="text-xs">Choose pouch 2 spice amount based on your heat tolerance — add extra from pouch 2 if you want more kick.</p>
+                                    </div>
+                                    <div class="bg-white rounded-lg p-3 text-sm text-slate-700">
+                                        <p class="font-medium text-green-700 mb-1">💚 Tip 2: Cool Chutney</p>
+                                        <p class="text-xs">The green chutney should be smooth and creamy — whisk until no herbs are visible and it's perfectly blended.</p>
+                                    </div>
+                                    <div class="bg-white rounded-lg p-3 text-sm text-slate-700">
+                                        <p class="font-medium text-green-700 mb-1">🥄 Tip 3: Gentle Folding</p>
+                                        <p class="text-xs">When mixing paneer with marinade, fold gently so the cream doesn't break apart.</p>
+                                    </div>
+                                    <div class="bg-white rounded-lg p-3 text-sm text-slate-700">
+                                        <p class="font-medium text-green-700 mb-1">💧 Tip 4: Water Adjustment</p>
+                                        <p class="text-xs">Keep your veggies fresh by not over-saucing them — lettuce will wilt if too wet.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </section>
+    
+    <!-- Footer -->
+    <footer class="bg-green-800 text-white py-8">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <p class="text-green-100 text-sm mb-2">© 2026 ZeroPrep. All rights reserved.</p>
+            <a href="index.html" class="inline-flex items-center gap-2 text-green-200 hover:text-green-100 transition-colors text-sm">
+                <span class="inline-flex items-center gap-1">
+                    📖 Browse More Recipes 📖
+                </span>
+            </a>
+        </div>
+    </footer>
+    </main>
+    
+    <script>
+        // Scroll reveal animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            const revealElements = document.querySelectorAll('.reveal-on-scroll');
+            revealElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

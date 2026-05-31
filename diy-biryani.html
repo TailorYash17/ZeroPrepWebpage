@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veg Biryani - ZeroPrep Recipe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        serif: ['Playfair Display', 'Georgia', 'serif']
+                    },
+                    colors: {
+                        green: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#166534',
+                            800: '#15803d',
+                            900: '#14532d',
+                        },
+                        slate: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'medium': '0 10px 40px -10px rgba(0, 0, 0, 0.1)',
+                        'accent': '0 15px 60px -15px rgba(22, 163, 74, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+        @keyframes pulseSlow { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        @keyframes countUp { from { counter-increment: step-counter 1; } to { counter-increment: step-counter 1; } }
+        
+        html { scroll-behavior: smooth; }
+        .font-heading { font-family: 'Playfair Display', Georgia, serif; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+        .sr-only:focus { position: fixed; top: 4px; left: 4px; width: auto; height: auto; padding: 0.5rem 1rem; overflow: visible; clip: auto; z-index: 9999; background: var(--color-green-700, #166534); color: white; border-radius: 0.5rem; }
+        
+        .hover-lift { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); }
+        .hover-lift:active { transform: translateY(-2px); }
+        
+        @media (prefers-reduced-motion: reduce) { *, ::before, ::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
+        
+        /* Smooth reveal on scroll */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .reveal-on-scroll.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Animated counter */
+        .step-number {
+            counter-increment: step-counter;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-green-50/50 via-slate-50 to-emerald-50/30 text-slate-800 min-h-screen">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:bg-green-700 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:z-50">Skip to main content</a>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md border-b border-slate-100 z-40">
+        <div class="max-w-4xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="text-2xl md:text-3xl font-heading font-semibold text-green-700 hover:text-green-800 transition-colors flex items-center gap-2">
+                    🍛 ZeroPrep
+                </a>
+                <div class="flex items-center gap-4">
+                    <a href="index.html" class="hidden sm:block text-slate-600 hover:text-green-700 text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-green-50">
+                        <span class="inline-flex items-center gap-1">
+                            <span class="text-lg">⬅️</span>
+                            Back to Recipes
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main id="main-content" class="pt-24 pb-16">
+        
+        <!-- Recipe Header Hero -->
+        <section class="relative py-8 lg:py-12">
+            <div class="max-w-4xl mx-auto px-4">
+                <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+                    <!-- Recipe Info -->
+                    <div class="lg:col-span-1">
+                        <div class="inline-flex items-center gap-2 text-green-700 text-xs font-semibold uppercase tracking-wider mb-4">
+                            🔥 Featured Recipe
+                        </div>
+                        
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-slate-900 tracking-tight leading-[1.1] mb-4">
+                            Veg Biryani
+                        </h1>
+                        
+                        <p class="text-slate-600 text-lg leading-relaxed mb-6 max-w-xl">
+                            Aromatic vegetable rice dish crafted from 8 ingredient pouches, delivering restaurant-quality flavors with zero prep.
+                        </p>
+                        
+                        <!-- Quick Stats -->
+                        <div class="grid grid-cols-3 gap-4 my-6" id="quick-stats">
+                            <div class="text-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-slate-100 shadow-soft hover-lift">
+                                <div class="flex items-center justify-center gap-2 mb-1">
+                                    <span class="text-green-700 text-2xl">🌱</span>
+                                </div>
+                                <div class="font-semibold text-green-700 min-w-[60px] text-center text-lg">⏱️ 35 min</div>
+                                <div class="text-xs text-slate-500 uppercase tracking-wide mt-1">Total Time</div>
+                            </div>
+                            
+                            <div class="text-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-slate-100 shadow-soft hover-lift">
+                                <div class="flex items-center justify-center gap-2 mb-1">
+                                    <span class="text-green-700 text-2xl">👥</span>
+                                </div>
+                                <div class="font-semibold text-green-700 min-w-[60px] text-center text-lg">6</div>
+                                <div class="text-xs text-slate-500 uppercase tracking-wide mt-1">Servings</div>
+                            </div>
+                            
+                            <div class="text-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-slate-100 shadow-soft hover-lift">
+                                <div class="flex items-center justify-center gap-2 mb-1">
+                                    <span class="text-green-700 text-2xl">🟢</span>
+                                </div>
+                                <div class="font-semibold text-green-700 min-w-[60px] text-center text-lg">Easy</div>
+                                <div class="text-xs text-slate-500 uppercase tracking-wide mt-1">Difficulty</div>
+                            </div>
+                        </div>
+                        
+                        <div class="inline-flex items-center gap-2 px-4 py-2.5 from-green-100 to-emerald-50 bg-gradient-to-r bg-white text-green-800 rounded-full text-sm font-medium border border-green-200 animate-fade-in">
+                            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                            🌿 Serves 6 people | Vegetarian Friendly | 🌾 No Prep Required
+                        </div>
+                    </div>
+                    
+                    <!-- Recipe Image -->
+                    <div class="lg:col-span-1">
+                        <div class="relative group">
+                            <div class="h-[500px] rounded-3xl overflow-hidden shadow-accent bg-gradient-to-br from-green-100 to-emerald-50">
+                                <img 
+                                    src="./assets/receipe-images/biryani.png" 
+                                    alt="A bowl of aromatic vegetable biryani rice dish"
+                                    class="w-full h-full object-cover scale-95"
+                                >
+                                <span class="absolute top-4 left-4 px-4 py-1.5 bg-white/90 backdrop-blur-lg rounded-full text-sm font-semibold shadow-sm">
+                                    🤍 Aromatic & flavorful rice dish
+                                </span>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- IN-BOX Section (NEW) -->
+        <section class="bg-gradient-to-b from-white via-green-50/30 to-white py-16 lg:py-20">
+            <div class="max-w-4xl mx-auto px-4">
+                <div class="text-center mb-10 reveal-on-scroll">
+                    <div class="inline-flex items-center gap-3 px-5 py-2.5 bg-gradient-to-r from-green-100 to-emerald-50 rounded-2xl mb-4 border border-green-200">
+                        <span class="text-green-800 font-semibold text-sm uppercase tracking-wide">🔥 Everything You Need</span>
+                    </div>
+                    <h2 class="text-3xl lg:text-4xl font-heading font-bold text-slate-900 mb-3">IN-BOX</h2>
+                    <p class="text-slate-600 text-sm max-w-xl mx-auto">Your complete meal kit arrives with 8 carefully portioned pouches ready for cooking</p>
+                </div>
+                
+                <!-- Pouch Grid (NEW) -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-4 lg:gap-5 mb-8 reveal-on-scroll" id="pouch-grid">
+                    <!-- Pouch 1 -->
+                    <div class="pouch-card bg-white rounded-2xl border-2 border-green-100 hover:border-green-400 transition-all cursor-default group reveal-on-scroll" style="animation-delay: 0ms;">
+                        <div class="p-5">
+                            <div class="text-center mb-3">
+                                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-green-100 to-emerald-50 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="text-3xl">🫒</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-800 bg-emerald-50 px-3 py-1.5 rounded-full">Pouch 1</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-base mb-1.5">🫒 Oil/Ghee</h3>
+                            <p class="text-slate-500 text-xs">🍳 Cooking fat for sautéing</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pouch 2 -->
+                    <div class="pouch-card bg-white rounded-2xl border-2 border-green-100 hover:border-green-400 transition-all cursor-default group reveal-on-scroll" style="animation-delay: 50ms;">
+                        <div class="p-5">
+                            <div class="text-center mb-3">
+                                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-green-100 to-emerald-50 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="text-3xl">🍛</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-800 bg-emerald-50 px-3 py-1.5 rounded-full">Pouch 2</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-base mb-1.5">🍛 Veg-Biryani Mix</h3>
+                            <p class="text-slate-500 text-xs">🌶️ Spiced vegetable blend</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pouch 3 -->
+                    <div class="pouch-card bg-white rounded-2xl border-2 border-green-100 hover:border-green-400 transition-all cursor-default group reveal-on-scroll" style="animation-delay: 100ms;">
+                        <div class="p-5">
+                            <div class="text-center mb-3">
+                                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-rose-100 to-pink-50 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="text-3xl">🥛</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-800 bg-emerald-50 px-3 py-1.5 rounded-full">Pouch 3</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-base mb-1.5">🥛 Curd (Yogurt)</h3>
+                            <p class="text-slate-500 text-xs">🤍 Creamy tangy base</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pouch 4 -->
+                    <div class="pouch-card bg-white rounded-2xl border-2 border-green-100 hover:border-green-400 transition-all cursor-default group reveal-on-scroll" style="animation-delay: 150ms;">
+                        <div class="p-5">
+                            <div class="text-center mb-3">
+                                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-green-100 to-emerald-50 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="text-3xl">🔥</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-800 bg-emerald-50 px-3 py-1.5 rounded-full">Pouch 4</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-base mb-1.5">🔥 Biryani Masala</h3>
+                            <p class="text-slate-500 text-xs">🌿 Secret spice blend</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pouch 5 -->
+                    <div class="pouch-card bg-white rounded-2xl border-2 border-green-100 hover:border-green-400 transition-all cursor-default group reveal-on-scroll" style="animation-delay: 200ms;">
+                        <div class="p-5">
+                            <div class="text-center mb-3">
+                                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-green-100 to-emerald-50 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="text-3xl">🌿</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-800 bg-emerald-50 px-3 py-1.5 rounded-full">Pouch 5</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-base mb-1.5">🌿 Coriander (Fresh)</h3>
+                            <p class="text-slate-500 text-xs">🤍 Fresh herb garnish</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pouch 6 -->
+                    <div class="pouch-card bg-white rounded-2xl border-2 border-green-100 hover:border-green-400 transition-all cursor-default group reveal-on-scroll" style="animation-delay: 250ms;">
+                        <div class="p-5">
+                            <div class="text-center mb-3">
+                                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-green-100 to-emerald-50 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="text-3xl">🥬</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-800 bg-emerald-50 px-3 py-1.5 rounded-full">Pouch 6</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-base mb-1.5">🥬 Cut Veggies</h3>
+                            <p class="text-slate-500 text-xs">🤍 Mixed vegetables</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pouch 7 -->
+                    <div class="pouch-card bg-white rounded-2xl border-2 border-green-100 hover:border-green-400 transition-all cursor-default group reveal-on-scroll" style="animation-delay: 300ms;">
+                        <div class="p-5">
+                            <div class="text-center mb-3">
+                                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-green-100 to-emerald-50 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="text-3xl">📏</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-800 bg-emerald-50 px-3 py-1.5 rounded-full">Pouch 7</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-base mb-1.5">📏 Measuring Cup</h3>
+                            <p class="text-slate-500 text-xs">💧 Water measuring tool</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pouch 8 -->
+                    <div class="pouch-card bg-white rounded-2xl border-2 border-green-100 hover:border-green-400 transition-all cursor-default group reveal-on-scroll" style="animation-delay: 350ms;">
+                        <div class="p-5">
+                            <div class="text-center mb-3">
+                                <div class="w-14 h-14 mx-auto bg-gradient-to-br from-green-100 to-emerald-50 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="text-3xl">🍚</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-800 bg-emerald-50 px-3 py-1.5 rounded-full">Pouch 8</span>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-base mb-1.5">🍚 Rice (Basmati)</h3>
+                            <p class="text-slate-500 text-xs">🍚 Pre-measured rice grain</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-blue-50 rounded-xl p-4 border border-blue-100 text-sm text-center text-blue-800 reveal-on-scroll">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="inline-flex items-center gap-2 mb-2">
+                            <!-- <span class="text-green-700 font-semibold">💡</span> -->
+                            <span class="font-semibold">💡 Read pouch references:</span>
+                        </div>
+                        <p class="max-w-3xl mx-auto">Whenever we reference a numbered pouch, we're telling you which in-box pouch to use for that ingredient. For example: "Take 3/4 oil from pouch 1 (Oil/Ghee) into the cooker" means use pouch 1 from your kit.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Ingredients Section -->
+        <!-- <section class="bg-white py-16 lg:py-20">
+            <div class="max-w-4xl mx-auto px-4">
+                <div class="flex items-center gap-4 mb-8 reveal-on-scroll">
+                    <div class="p-3.5 bg-green-100 rounded-2xl">
+                        <span class="text-3xl">🍳</span>
+                    </div>
+                    <h2 class="text-3xl lg:text-4xl font-heading font-bold text-slate-900">Ingredients</h2>
+                    <div class="hidden md:flex items-center gap-2 text-green-700 text-sm font-medium">
+                        <span class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium rounded bg-green-100 text-green-700">
+                            🔑 What's Included 🔑
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="grid lg:grid-cols-3 gap-6 mb-8 reveal-on-scroll">
+                    <div class="lg:col-span-2 bg-slate-50 rounded-2xl p-6">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2"> -->
+                            <!-- <span class="p-2 bg-slate-200 rounded-lg text-slate-600">🤍</span> -->
+                            <!-- 🤍 Pouch Contents -->
+                        <!-- </h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 text-white">🫒</div>
+                                <span class="text-slate-700">Oil/Ghee from 📦 Pouch 1</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 text-white">
+                                    🍛
+                                </div>
+                                <span class="text-slate-700">Veg-Biryani vegetable mix from 📦 Pouch 2</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 text-white">
+                                    🥛
+                                </div>
+                                <span class="text-slate-700"> Curd/Yogurt from 📦 Pouch 3</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 text-white">
+                                    🔥 
+                                </div>
+                                <span class="text-slate-700">Biryani Masala from 📦 Pouch 4</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 text-white">
+                                    🌿
+                                </div>
+                                <span class="text-slate-700"> Chopped coriander (fresh) from 📦 Pouch 5</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 text-white">
+                                    🥬
+                                </div>
+                                <span class="text-slate-700"> Cut mixed vegetables from 📦 Pouch 6</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 text-white">
+                                    📏 
+                                </div>
+                                <span class="text-slate-700">Water measuring tool from 📦 Pouch 7</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 text-white">
+                                    🍚
+                                </div>
+                                <span class="text-slate-700">Basmati rice (pre-measured) from 📦 Pouch 8</span>
+                            </li>
+                        </ul>
+                    </div> -->
+                    
+                    <!-- <div class="bg-green-50 rounded-xl p-6">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2"> -->
+                            <!-- <span class="p-2 bg-slate-200 rounded-lg text-slate-600">✨</span> -->
+                            <!-- ✨ Quick Tips Ingredients
+                        </h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 text-white">
+                                    💦 
+                                </div>
+                                <span class="text-slate-700 small">Drain rice before adding for better texture</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 text-white">
+                                    🥣 
+                                </div>
+                                <span class="text-slate-700 small">Mix 🥛 curd gently to avoid curdling</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 text-white">
+                                    🚿
+                                </div>
+                                <span class="text-slate-700 small"> Rinse 🍚 rice thoroughly if not pre-washed</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 text-white">
+                                    👅
+                                </div>
+                                <span class="text-slate-700 small"> Taste and adjust salt before closing lid</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div> -->
+                
+                <!-- Pro Tip Box -->
+                <!-- <div class="bg-orange-50 border border-orange-100 rounded-xl p-5 flex items-start gap-4 reveal-on-scroll">
+                    <div class="p-2 bg-orange-200 rounded-lg text-orange-700">
+                        <span class="text-2xl">💡</span>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-slate-900 mb-1"> Biryani Secret Tip</h4>
+                        <p class="text-slate-700 text-sm leading-relaxed">
+                            For extra creamy texture, don't over-stir once you add the rice. Gently fold the rice in once so the grains stay separate and fluffy. If you like aromatic biryani, add a small pinch of garam masala or a few cloves while heating the oil for authentic restaurant-style flavors.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+        
+        <!-- Instructions Section -->
+        <section class="bg-slate-50 py-16 lg:py-20">
+            <div class="max-w-4xl mx-auto px-4">
+                    <div class="flex items-center gap-4 mb-8 reveal-on-scroll">
+                        <div class="p-3.5 bg-green-100 rounded-2xl">
+                            <span class="text-3xl">👨‍🍳</span>
+                        </div>
+                        <h2 class="text-3xl lg:text-4xl font-heading font-bold text-slate-900">Instructions</h2>
+                    <div class="hidden md:flex items-center gap-2 text-green-700 text-sm font-medium">
+                        <div class="step-number w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-md" style="counter-increment: step-counter;">1</div>
+                        <div class="step-number w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-md" style="counter-increment: step-counter;">2</div>
+                        <div class="step-number w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-md" style="counter-increment: step-counter;">3</div>
+                        <div class="step-number w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-md" style="counter-increment: step-counter;">4</div>
+                        <div class="step-number w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-md" style="counter-increment: step-counter;">5</div>
+                        <div class="step-number w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-md" style="counter-increment: step-counter;">6</div>
+                        <div class="step-number w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-md" style="counter-increment: step-counter;">7</div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4 reveal-on-scroll">
+                    
+                    <!-- Step 1 -->
+                    <div class="step bg-white rounded-xl p-6 shadow-soft hover:shadow-md hover-lift transition-all">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="step-number w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md">
+                                    1
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2">
+                                    🔥 Heat the Oil
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded bg-green-100 text-green-700">
+                                        ← Prep ↓
+                                    </span>
+                                </h3>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Take ¾ amount of oil from 📦 packet 1 and add it into the cooker pot. Heat on medium flame until the oil shimmers (about 1 minute). This indicates the oil is ready for sautéing.
+                                </p>
+                                <div class="flex flex-wrap gap-2 mt-3">
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-green-50 text-green-800 text-xs font-medium rounded-full border border-green-200">
+                                        ← Heat until oil shimmers ↓
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="step bg-white rounded-xl p-6 shadow-soft hover:shadow-md hover-lift transition-all">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="step-number w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md">
+                                    2
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2">
+                                    🍳 Fry the Veg Mix
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded bg-red-100 text-red-700">
+                                        ← Cook ↓
+                                    </span>
+                                </h3>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Add 📦 packet 2 to the hot oil. Stir continuously to avoid sticking. Keep stirring to release the aromatic spices and let the vegetables get a light sautéed color.
+                                </p>
+                                <div class="flex flex-wrap gap-2 mt-3">
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-red-50 text-red-800 text-xs font-medium rounded-full border border-red-100">
+                                        ← Stir continuously to prevent burning ↓
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="step bg-white rounded-xl p-6 shadow-soft hover:shadow-md hover-lift transition-all">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="step-number w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md">
+                                    3
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2">
+                                    🤍 Add Curd & Spice Mix
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded bg-orange-100 text-orange-700">
+                                        ← Mix & Cook ↓
+                                    </span>
+                                </h3>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Add 📦 packet 3 and 📦 packet 4. Mix thoroughly so the curd blends smoothly with the vegetables and spices. Cook for 1 minute to let the flavors meld together before adding rice.
+                                </p>
+                                <div class="flex flex-wrap gap-2 mt-3">
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-orange-50 text-orange-800 text-xs font-medium rounded-full border border-orange-100">
+                                        ← Mix 🥛 curd gently to avoid curdling ↓
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4 -->
+                    <div class="step bg-white rounded-xl p-6 shadow-soft hover:shadow-md hover-lift transition-all">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="step-number w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md">
+                                    4
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2">
+                                    🌿 Add Coriander & Veggies
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded bg-emerald-100 text-emerald-700">
+                                        ← Add Fresh ↓
+                                    </span>
+                                </h3>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Add chopped coriander (📦 packet 5) and cut vegetables (📦 packet 6). Sauté for 2–3 minutes until the vegetables are slightly tender but not fully cooked. They'll finish cooking with the rice.
+                                </p>
+                                <div class="flex flex-wrap gap-2 mt-3">
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-800 text-xs font-medium rounded-full border border-emerald-100">
+                                        ← 🥬 Veggies add color & crunch ↓
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 5 -->
+                    <div class="step bg-white rounded-xl p-6 shadow-soft hover:shadow-md hover-lift transition-all">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="step-number w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md">
+                                    5
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2">
+                                    🍚 Drain Rice & Fold in
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded bg-green-100 text-green-700">
+                                        ← Handle Gently ↓
+                                    </span>
+                                </h3>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Take the rice from 📦 packet 8 and drain any excess water into the sink. Add the drained rice into the cooker. Gently fold the rice with the masala-veg mixture so grains are evenly coated without breaking them.
+                                </p>
+                                <div class="flex flex-wrap gap-2 mt-3">
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-green-50 text-green-800 text-xs font-medium rounded-full border border-green-200">
+                                        ← 🚯 Don't crush grains ↓
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 6 -->
+                    <div class="step bg-white rounded-xl p-6 shadow-soft hover:shadow-md hover-lift transition-all">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="step-number w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md">
+                                    6
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2">
+                                    💧 Add Water & Salt
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded bg-blue-100 text-blue-700">
+                                        ← 💧 Liquid ↓
+                                    </span>
+                                </h3>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Pour measured water (1½ cups) into the cooker using the measuring cup. Adjust salt to the amount you like. Give a gentle stir to combine everything without disturbing the rice grains.
+                                </p>
+                                <div class="flex flex-wrap gap-2 mt-3">
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-blue-800 text-xs font-medium rounded-full border border-blue-100">
+                                        ← 👅 Taste and adjust salt ↓
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 7 -->
+                    <div class="step bg-white rounded-xl p-6 shadow-soft hover:shadow-md hover-lift transition-all">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="step-number w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md">
+                                    7
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2">
+                                    🔔 Seal & Cook on Pressure Cooker
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded bg-red-100 text-red-700">
+                                        ← Pressure Cook ↓
+                                    </span>
+                                </h3>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Close the cooker lid properly and cook on medium heat until you hear 2 whistles. Then reduce to low heat and cook for 5 more minutes (this is like the 3 whistle method). Once done, turn off the heat and let the pressure release naturally for 5–7 minutes before opening the lid.
+                                </p>
+                                <div class="flex flex-wrap gap-2 mt-3">
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-red-50 text-red-800 text-xs font-medium rounded-full border border-red-100">
+                                        ← Let natural pressure release ↓
+                                    </span>
+                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-yellow-50 text-yellow-800 text-xs font-medium rounded-full border border-yellow-100">
+                                        ← ✨ For pot: simmer covered ✨
+                                    </span>
+                                </div>
+                                
+                                <!-- Quick Tips for Pressure Cooker users -->
+                                <div class="mt-3 bg-blue-50 rounded-lg p-3 text-sm text-blue-800 border border-blue-200">
+                                    <p class="font-semibold mb-1">🔔 Quick Tips:</p>
+                                    <ul class="space-y-1 list-disc list-inside">
+                                        <li>If you prefer aromatic biryani, add a small pinch of garam masala or whole cloves/cinnamon while heating the oil.</li>
+                                        <li>Don't over-stir after adding rice to keep grains intact for fluffy texture.</li>
+                                        <li>Adjust water slightly depending on rice type—soaked rice needs slightly less water.</li>
+                                        <li>For a richer taste, replace part of the water with warm stock or add a small knob of butter/ghee.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Finish & Serve Section -->
+                <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border border-green-100 mt-6 shadow-sm reveal-on-scroll">
+                    <div class="flex items-start gap-4">
+                        <div class="p-2 bg-green-200 rounded-lg text-green-700">
+                            <span class="text-2xl">🍽️</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-green-900 text-lg mb-2">Finish & Serve</h3>
+                            <p class="text-slate-700 leading-relaxed mb-3">
+                                Open the cooker once pressure has released naturally. Gently fluff the rice with a fork to separate the grains. Taste and adjust seasoning if needed. Garnish with extra coriander from 📦 packet 5 if desired and serve the biryani hot with raita, salad, or naan/roti.
+                            </p>
+                            
+                            <!-- Quick Tips -->
+                            <div class="mt-4">
+                                <h4 class="font-semibold text-green-900 mb-2">👏 Quick Tips ✅</h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div class="bg-white rounded-lg p-3 text-sm text-slate-700">
+                                        <p class="font-medium text-green-700 mb-1">🌶️ Aromatic Option</p>
+                                        <p class="text-xs">Add garam masala or whole spices (clove, cinnamon, cardamom) while heating oil for authentic restaurant aroma.</p>
+                                    </div>
+                                    <div class="bg-white rounded-lg p-3 text-sm text-slate-700">
+                                        <p class="font-medium text-green-700 mb-1">💛 Richer Taste</p>
+                                        <p class="text-xs">Swap part of water with warm stock or add a knob of butter/ghee for creamier, more luxurious biryani.</p>
+                                    </div>
+                                    <div class="bg-white rounded-lg p-3 text-sm text-slate-700">
+                                        <p class="font-medium text-green-700 mb-1">🥄 Don't Over-stir</p>
+                                        <p class="text-xs">Once rice is added, fold gently to avoid breaking grains. This keeps the texture fluffy and separate.</p>
+                                    </div>
+                                    <div class="bg-white rounded-lg p-3 text-sm text-slate-700">
+                                        <p class="font-medium text-green-700 mb-1">💧 Water Adjustment</p>
+                                        <p class="text-xs">Adjust water based on rice type. Soaked rice absorbs less water, so use slightly less water. </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="bg-green-800 text-white py-8">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <p class="text-green-100 text-sm mb-2">© 2026 ZeroPrep. All rights reserved.</p>
+                <a href="index.html" class="inline-flex items-center gap-2 text-green-200 hover:text-green-100 transition-colors text-sm">
+                    <span class="inline-flex items-center gap-1">
+                        📖 Browse More Recipes 📖
+                    </span>
+                </a>
+            </div>
+        </footer>
+    </main>
+    
+    <script>
+        // Scroll reveal animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            const revealElements = document.querySelectorAll('.reveal-on-scroll');
+            revealElements.forEach(el => observer.observe(el));
+            
+            // Initialize counter counter starts at 0, so the animation will count from 0 to 6
+            const counter = document.querySelector('.step-counter');
+            if (counter) {
+                let count = 0;
+                const interval = setInterval(() => {
+                    count++;
+                    if (count >= 6) {
+                        clearInterval(interval);
+                    }
+                    counter.textContent = count;
+                }, 100);
+            }
+        });
+    </script>
+</body>
+</html>
